@@ -1,0 +1,41 @@
+<?xml version="1.0" ?> 
+<project name="HelloWorld" default="execute">
+<description> Compiles and runs a simple program </description>
+
+    <presetdef name="my.javac">
+            <javac includeantruntime="false" />
+    </presetdef>
+
+    <target name="init">
+        <mkdir dir="build/classes" />
+        <mkdir dir="dist" />
+        <touch file="myfile" datetime="now"/>
+        <!--mkdir dir="src"/-->
+    </target>
+
+    <target name="compile" depends="init" description="Compiles the source code">
+       <echo> Compiling output </echo>
+        <my.javac srcdir="." destdir="build/classes"/>
+    </target>  
+
+    <target name="compress" depends="compile">
+            <jar destfile="dist/sample.jar" basedir="build/classes" />
+
+    </target>
+
+    <target name="execute" depends="compile">
+      <echo level="warning" message="running" />
+        <java
+              classname="org.antbook.welcome.Main"
+              classpath="build/classes">
+              <arg value="a"/> 
+              <arg value="b"/> 
+              <arg file="."/>
+        </java> 
+    </target> 
+
+    <target name="clean" depends="init">
+    <delete dir="build"/>
+    </target>
+
+</project>
